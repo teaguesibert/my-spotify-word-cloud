@@ -2,26 +2,84 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+body {
+  color: rgb(var(--foreground-rgb));
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+/* Normal Animated Background */
+@keyframes moveBackground {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
   }
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.animated-background {
+  background: linear-gradient(45deg, #a1ffc4, #faffd1, #ffcae9, #b4aee8);
+  background-size: 200% 200%;
+  animation: moveBackground 15s linear infinite;
+}
+/* dark Animated Background */
+
+.animated-background-dark {
+  background: linear-gradient(45deg, #2b4162, #12100e);
+  background-size: 200% 200%;
+  animation: moveBackground 12s linear infinite;
+}
+
+/* Tailwind CSS dark mode class usage */
+ .dark .animated-background {
+  @apply animated-background-dark;
+} 
+
+/* Toggle */
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 50px;  /* reduced from 60px */
+  height: 28px; /* reduced from 34px */
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #2b4162c1;
+  transition: .4s;
+  border-radius: 28px; /* adjusted to match height */
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px; 
+  left: 3px;  
+  bottom: 3px; 
+  background-color: #b4aee8;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #ffcae9;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 20px #b4aee8;
+}
+
+input:checked + .slider:before {
+  transform: translateX(24px); /* adjusted to match new width */
 }

@@ -1,0 +1,19 @@
+import React from 'react';
+import { useTheme } from 'next-themes';
+
+const ThemeButton = () => {
+    const { theme, setTheme } = useTheme();
+
+    return (
+        <label className="toggle-switch">
+            <input
+                type="checkbox"
+                checked={theme === 'dark'}
+                onChange={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            />
+            <span className="slider round"></span>
+        </label>
+    );
+};
+
+export default ThemeButton;
