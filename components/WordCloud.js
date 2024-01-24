@@ -2,10 +2,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
+import { useTheme } from 'next-themes';
 
 const WordCloud = ({ words }) => {
   const ref = useRef();
   const [size, setSize] = useState([800, 400]); // Default size
+  console.log(words)
+  const { theme } = useTheme();
+  const [colorScheme, setColorScheme] = useState([]);
 
   useEffect(() => {
     const updateSize = () => {
@@ -40,17 +44,24 @@ const WordCloud = ({ words }) => {
       console.error('Invalid or missing words prop');
       return;
     }
+    const lightColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
+    const darkColors = ["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"];
+    setColorScheme((theme === 'dark' ? darkColors : lightColors));
 
-    const color = d3.scaleOrdinal(d3.schemePastel1);
+   /*  const customColors = ["#66a5ad", "#92c5de", "#b8a398", "#800020", "#cc5500", "#d4af37", "#c8a2c8", "#967bb6"];
+    const colorSchemeLight = d3.scaleOrdinal(["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"]);
+    const colorSchemeDark = d3.scaleOrdinal(["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"]); */
+
+    const color = d3.scaleOrdinal(colorScheme)
     const fontSizeScale = d3.scaleSqrt()
       .domain(d3.extent(words, d => d.value))
-      .range([8, 100]);
+      .range([6, 100]);
 
     const layout = cloud()
       .size(size)
       .words(words.map(d => ({ text: d.text, size: fontSizeScale(d.value) })))
       .padding(5)
-      .rotate(() => ~~(Math.random() * 5) * 30 - 60)
+      .rotate(() => Math.random() > 0.5 ? 0 : 90)
       .font('Sans-serif')
       .fontSize(d => d.size)
       .on('end', draw);
@@ -76,7 +87,7 @@ const WordCloud = ({ words }) => {
         .attr('transform', d => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
         .text(d => d.text);
     }
-  }, [words,size]);
+  }, [theme, words,size]);
 
   return <svg ref={ref} width={size[0]} height={size[1]}/>;
 };
