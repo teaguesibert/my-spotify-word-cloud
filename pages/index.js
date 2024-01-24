@@ -7,6 +7,7 @@ import ThemeButton from '../components/ThemeButton';
 import  { Sansita_Swashed } from 'next/font/google';
 import { stopWords } from '../lib/stopWords';
 import { Footer } from '../components/Footer';
+import nlp from "compromise";
 
 const sansita = Sansita_Swashed({
   subsets: ['latin'],
@@ -21,35 +22,20 @@ const sansita = Sansita_Swashed({
 const processLyricsToWords = (lyrics) => {
   if (!lyrics) return [];
 
-  // Insert spaces around HTML tags to prevent concatenation of adjacent words
-  const spacedLyrics = lyrics.replace(/<[^>]+>/g, ' ');
+  // Use compromise to tokenize the lyrics
+  let doc = nlp(lyrics);
+  let tokens = doc.terms().out('array');
+  console.log(tokens)
+  // Convert tokens to lowercase and filter out non-alphabetic tokens
+  tokens = tokens.map(token => token.toLowerCase()).filter(token => token.match(/^[a-z'-]+$/));
 
-  // Use a comprehensive regex to split the lyrics into words, accounting for various punctuation
-  const words = spacedLyrics.split(/[\s,.!?;:()<>[\]\/]+/).filter(Boolean);
   const wordCounts = {};
 
-  words.forEach(rawWord => {
-    // Clean the word and handle special characters and cases
-    const cleanedWords = rawWord.toLowerCase()
-                                .replace(/['’]/g, "")
-                                .split(/[^a-zA-Z'-]/)
-                                .filter(Boolean);
-
-    cleanedWords.forEach(cleanedWord => {
-      // Further break down words that might be concatenated
-      const subWords = cleanedWord.match(/\b[\w'-]+\b/g) || [cleanedWord];
-
-      subWords.forEach(subWord => {
-        // Split any remaining concatenated words
-        const splitSubWords = subWord.split(/(?=[A-Z])/).filter(Boolean);
-
-        splitSubWords.forEach(finalWord => {
-          if (!stopWords.has(finalWord) && finalWord.length > 1 && isNaN(finalWord)) {
-            wordCounts[finalWord] = (wordCounts[finalWord] || 0) + 1;
-          }
-        });
-      });
-    });
+  tokens.forEach(token => {
+    // Ensure the token is not a stop word and has more than one character
+    if (!stopWords.has(token) && token.length > 1) {
+      wordCounts[token] = (wordCounts[token] || 0) + 1;
+    }
   });
 
   return Object.keys(wordCounts).map(word => ({

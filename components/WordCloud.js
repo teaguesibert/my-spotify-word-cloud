@@ -48,10 +48,6 @@ const WordCloud = ({ words }) => {
     const darkColors = ["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"];
     setColorScheme((theme === 'dark' ? darkColors : lightColors));
 
-   /*  const customColors = ["#66a5ad", "#92c5de", "#b8a398", "#800020", "#cc5500", "#d4af37", "#c8a2c8", "#967bb6"];
-    const colorSchemeLight = d3.scaleOrdinal(["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"]);
-    const colorSchemeDark = d3.scaleOrdinal(["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"]); */
-
     const color = d3.scaleOrdinal(colorScheme)
     const fontSizeScale = d3.scaleSqrt()
       .domain(d3.extent(words, d => d.value))
