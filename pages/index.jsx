@@ -25,10 +25,11 @@ const processLyricsToWords = (lyrics) => {
   // Use compromise to tokenize the lyrics
   let doc = nlp(lyrics);
   let tokens = doc.terms().out('array');
-  console.log(tokens)
+  
   // Convert tokens to lowercase and filter out non-alphabetic tokens
-  tokens = tokens.map(token => token.toLowerCase()).filter(token => token.match(/^[a-z'-]+$/));
-
+  tokens = tokens.map(token => token.toLowerCase().replace(/[,.!?;:()]+$/, ''))
+  .filter(token => token.match(/^[a-z'-]+$/));
+  console.log(tokens)
   const wordCounts = {};
   
   tokens.forEach(token => {
@@ -41,7 +42,8 @@ const processLyricsToWords = (lyrics) => {
   return Object.keys(wordCounts).map(word => ({
     text: word,
     value: wordCounts[word],
-  }));
+  }))
+  .sort((a, b) => b.value - a.value).slice(0, 200);
 };
 
 
@@ -58,21 +60,24 @@ const IndexPage = () => {
       if (session) {
         try {
           const tracks = await getTopTracks(session.accessToken);
-          setTopTracks(tracks); // Save top tracks to state
-          
+          setTopTracks(tracks);
+  
           const trackLyricsPromises = tracks.map(track =>
             getSongInfo(track.artists[0].name, track.name).catch(e => null)
-        );
+          );
           const trackLyrics = await Promise.all(trackLyricsPromises);
-          // Process and flatten the lyrics
-          const allProcessedLyrics = trackLyrics
-            .filter(lyric => lyric != null) // Filter out null values
-            .map(lyric => processLyricsToWords(lyric)) // Process each set of lyrics
-            .flat() // Flatten the array of arrays into a single array
-            .sort((a, b) => b.value - a.value).slice(0, 200);
-            if (JSON.stringify(allProcessedLyrics) !== JSON.stringify(lyrics)) {
+  
+          // Concatenate all lyrics into a single string
+          const combinedLyrics = trackLyrics
+            .filter(lyric => lyric != null)
+            .join(' ');
+  
+          // Process the combined lyrics
+          const allProcessedLyrics = processLyricsToWords(combinedLyrics);
+  
+          if (JSON.stringify(allProcessedLyrics) !== JSON.stringify(lyrics)) {
             setLyrics(allProcessedLyrics); // Update the state with combined lyrics
-            }
+          }
           setError(false);
         } catch (err) {
           console.error('Error fetching top tracks:', err);
