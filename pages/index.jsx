@@ -5,7 +5,7 @@ import { getTopTracks } from '../lib/spotify';
 import { getSongInfo } from '../lib/lyrics';
 import  { Sansita_Swashed } from 'next/font/google';
 import { stopWords } from '../lib/stopWords';
-import { Footer } from '../components/Footer';
+import { Footer } from '../components/Footer/Footer';
 import TopTracksList from '../components/TopTracksList';
 import nlp from "compromise";
 
@@ -30,7 +30,7 @@ const processLyricsToWords = (lyrics) => {
   tokens = tokens.map(token => token.toLowerCase()).filter(token => token.match(/^[a-z'-]+$/));
 
   const wordCounts = {};
-
+  
   tokens.forEach(token => {
     // Ensure the token is not a stop word and has more than one character
     if (!stopWords.has(token) && token.length > 1) {
