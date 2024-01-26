@@ -100,8 +100,8 @@ const IndexPage = () => {
   if (!session || error) { // Show sign-in button if not authenticated or if there's an error
     return (
         <div className="flex flex-col min-h-screen animated-background">
-          <div className="flex-grow flex flex-col justify-center items-center p-4 overflow-hidden dark:text-white">
-            <h1 className={`${sansita.className}  text-5xl md:text-6xl lg:text-7xl mb-6 px-4 drop-shadow-lg`}>
+          <div className="flex-grow flex flex-col justify-center items-center p-4 overflow-hidden text-gray-700 dark:text-white">
+            <h1 className={`${sansita.className}  text-5xl md:text-6xl lg:text-7xl mb-6 px-4 [text-shadow:_2px_2px_0_rgb(0_0_0_/_40%)] dark:[text-shadow:_6px_6px_0_rgb(0_0_0_/_40%)]`}>
               Lyric-Cloud
             </h1>
             <button 
@@ -120,7 +120,7 @@ const IndexPage = () => {
   return (
     <div className="min-h-screen animated-background overflow-hidden flex flex-col justify-between">
       <div className="flex justify-center">
-        <WordCloud words={lyrics} className="w-full max-w-4xl h-auto" />
+        <WordCloud words={lyrics} />
         
       </div>
       <TopTracksList topTracks={topTracks} />

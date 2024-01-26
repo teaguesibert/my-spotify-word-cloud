@@ -3,6 +3,11 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as d3 from 'd3';
 import cloud from 'd3-cloud';
 import { useTheme } from 'next-themes';
+import { saveAs } from 'file-saver';
+
+const DownloadIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#828282"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+)
 
 const WordCloud = ({ words }) => {
   const ref = useRef();
@@ -13,17 +18,20 @@ const WordCloud = ({ words }) => {
 
   useEffect(() => {
     const updateSize = () => {
-      // Update the size to window width while maintaining aspect ratio
-      const width = window.innerWidth;
-      let height;
-  
-      // Check if we're on a mobile device based on the width
-      if (width <= 768) { // 768px is a common breakpoint for mobile devices
-        height = width; // 1:1 aspect ratio for mobile
-      } else {
-        height = width * 0.5; // Maintain a 2:1 aspect ratio for wider screens
+      // Get the full width and height of the window
+      let width = window.innerWidth;
+      let height = window.innerHeight;
+    
+      // Set a maximum size for larger screens
+      const maxWidth = 992; 
+      const maxHeight = 600; 
+    
+      if (width > maxWidth) {
+        width = maxWidth;
+        height = maxHeight; // Keep a fixed height or adjust based on aspect ratio
       }
-  
+    
+      // Set the SVG size
       setSize([width, height]);
     };
   
@@ -44,14 +52,14 @@ const WordCloud = ({ words }) => {
       console.error('Invalid or missing words prop');
       return;
     }
-    const lightColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
-    const darkColors = ["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"];
+    const lightColors = ["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"];
+    const darkColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
     setColorScheme((theme === 'dark' ? darkColors : lightColors));
 
     const color = d3.scaleOrdinal(colorScheme)
     const fontSizeScale = d3.scaleSqrt()
       .domain(d3.extent(words, d => d.value))
-      .range([6, 100]);
+      .range([3, 100]);
 
     const layout = cloud()
       .size(size)
@@ -84,8 +92,37 @@ const WordCloud = ({ words }) => {
         .text(d => d.text);
     }
   }, [theme, words,size]);
+  
 
-  return <svg ref={ref} width={size[0]} height={size[1]}/>;
+  const downloadImage = async () => {
+    const svg = ref.current;
+    const svgData = new XMLSerializer().serializeToString(svg);
+    const canvas = document.createElement('canvas');
+    canvas.width = svg.width.baseVal.value;
+    canvas.height = svg.height.baseVal.value;
+    const ctx = canvas.getContext('2d');
+   // Scale the context to counteract the increased canvas size
+
+    const img = new Image();
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0);
+      canvas.toBlob((blob) => {
+        saveAs(blob, 'word-cloud.png', { quality: 1 });
+      });
+    };
+
+    img.src = 'data:image/svg+xml;base64,' + btoa(unescape(encodeURIComponent(svgData)));
+  };
+
+
+  return (
+  <div className="flex flex-col items-center">
+    <svg ref={ref} width={size[0]} height={size[1]}/>
+    <span className="hover:cursor-pointer" onClick={downloadImage}>
+      <DownloadIcon/>
+    </span>
+  </div> 
+  )
 };
 
 export default WordCloud;
