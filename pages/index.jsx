@@ -8,6 +8,8 @@ import { stopWords } from '../lib/stopWords';
 import { Footer } from '../components/Footer/Footer';
 import TopTracksList from '../components/TopTracksList';
 import nlp from "compromise";
+import LoadingIcon from '../components/LoadingIcon';
+
 
 const sansita = Sansita_Swashed({
   subsets: ['latin'],
@@ -43,7 +45,7 @@ const processLyricsToWords = (lyrics) => {
     text: word,
     value: wordCounts[word],
   }))
-  .sort((a, b) => b.value - a.value).slice(0, 200);
+  .sort((a, b) => b.value - a.value).slice(0, 150);
 };
 
 
@@ -53,11 +55,13 @@ const IndexPage = () => {
   const [lyrics, setLyrics] = useState([]);
   const [error, setError] = useState(false); // New state for handling errors
   const [topTracks, setTopTracks] = useState([]);
+  const [lyricsLoading, setLyricsLoading] = useState(false); // State to track loading of lyrics
 
 
   useEffect(() => {
     const fetchLyrics = async () => {
       if (session) {
+        setLyricsLoading(true); // Start loading lyrics
         try {
           const tracks = await getTopTracks(session.accessToken);
           setTopTracks(tracks);
@@ -74,12 +78,14 @@ const IndexPage = () => {
   
           // Process the combined lyrics
           const allProcessedLyrics = processLyricsToWords(combinedLyrics);
+          setLyricsLoading(false);
   
           if (JSON.stringify(allProcessedLyrics) !== JSON.stringify(lyrics)) {
             setLyrics(allProcessedLyrics); // Update the state with combined lyrics
           }
           setError(false);
         } catch (err) {
+          setLyricsLoading(false);
           console.error('Error fetching top tracks:', err);
           setError(true);
         }
@@ -94,7 +100,9 @@ const IndexPage = () => {
   
 
   if (loading) {
-    return <p>Loading...</p>;
+    return  (
+    <LoadingIcon loading={lyricsLoading}/>
+    )
   }
 
   if (!session || error) { // Show sign-in button if not authenticated or if there's an error
@@ -119,12 +127,17 @@ const IndexPage = () => {
 
   return (
     <div className="min-h-screen animated-background overflow-hidden flex flex-col justify-between">
-      <div className="flex justify-center">
-        <WordCloud words={lyrics} />
-        
-      </div>
-      <TopTracksList topTracks={topTracks} />
-      <Footer />
+{lyricsLoading ? (
+      <LoadingIcon loading={lyricsLoading}/>
+    ) : (
+      <>
+        <div className="flex justify-center">
+          <WordCloud words={lyrics} />
+        </div>
+        <TopTracksList topTracks={topTracks} />
+        <Footer />
+      </>
+    )}
     </div>
 
 
