@@ -33,3 +33,12 @@ body {
  .dark .animated-background {
   @apply animated-background-dark;
 } 
+
+span svg { 
+  transition: all .2s ease-in-out; 
+  }
+
+span svg:hover {
+  fill: #99e6c7;
+  transform: scale(1.3); 
+}

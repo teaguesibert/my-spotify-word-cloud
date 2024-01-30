@@ -6,7 +6,10 @@ import { useTheme } from 'next-themes';
 import { saveAs } from 'file-saver';
 
 const DownloadIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24" fill="#828282"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+  <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#828282"><path d="M480-320 280-520l56-58 104 104v-326h80v326l104-104 56 58-200 200ZM240-160q-33 0-56.5-23.5T160-240v-120h80v120h480v-120h80v120q0 33-23.5 56.5T720-160H240Z"/></svg>
+)
+const RefreshIcon = () => (
+  <svg xmlns="http://www.w3.org/2000/svg" height="36" viewBox="0 -960 960 960" width="36" fill="#828282"><path d="M480-160q-134 0-227-93t-93-227q0-134 93-227t227-93q69 0 132 28.5T720-690v-110h80v280H520v-80h168q-32-56-87.5-88T480-720q-100 0-170 70t-70 170q0 100 70 170t170 70q77 0 139-44t87-116h84q-28 106-114 173t-196 67Z"/></svg>
 )
 
 const WordCloud = ({ words }) => {
@@ -16,33 +19,30 @@ const WordCloud = ({ words }) => {
   const { theme } = useTheme();
   const [colorScheme, setColorScheme] = useState([]);
 
-  useEffect(() => {
-    const updateSize = () => {
-      // Get the full width and height of the window
-      let width = window.innerWidth;
-      let height = window.innerHeight;
-    
-      // Set a maximum size for larger screens
-      const maxWidth = 992; 
-      const maxHeight = 600; 
-    
-      if (width > maxWidth) {
-        width = maxWidth;
-        height = maxHeight; // Keep a fixed height or adjust based on aspect ratio
-      }
-    
-      // Set the SVG size
-      setSize([width, height]);
-    };
+  const updateSize = () => {
+    // Get the full width and height of the window
+    let width = window.innerWidth - 20;
+    let height = window.innerHeight - 20;
   
-    // Set up the event listener for resizing
-    window.addEventListener('resize', updateSize);
+    // Set a maximum size for larger screens
+    const maxWidth = 992; 
+    const maxHeight = 600; 
+  
+    if (width > maxWidth) {
+      width = maxWidth;
+      height = maxHeight; // Keep a fixed height or adjust based on aspect ratio
+    }
     
+    // Set the SVG size
+    setSize([width, height]);
+  };
+
+
+  useEffect(() => {
     // Call the function to set the initial size
     updateSize();
     
-    // Remove the event listener on cleanup
-    return () => window.removeEventListener('resize', updateSize);
+    return 
   }, []);
   
 
@@ -52,14 +52,14 @@ const WordCloud = ({ words }) => {
       console.error('Invalid or missing words prop');
       return;
     }
-    const lightColors = ["#dc143c", "#50c878", "#4169e1", "#9c51b6", "#ffd700", "#40e0d0"];
+    const lightColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
     const darkColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
     setColorScheme((theme === 'dark' ? darkColors : lightColors));
 
     const color = d3.scaleOrdinal(colorScheme)
     const fontSizeScale = d3.scaleSqrt()
       .domain(d3.extent(words, d => d.value))
-      .range([3, 100]);
+      .range([8, 120]);
 
     const layout = cloud()
       .size(size)
@@ -69,6 +69,7 @@ const WordCloud = ({ words }) => {
       .font('Sans-serif')
       .fontSize(d => d.size)
       .on('end', draw);
+      
 
     layout.start();
 
@@ -91,7 +92,7 @@ const WordCloud = ({ words }) => {
         .attr('transform', d => `translate(${[d.x, d.y]})rotate(${d.rotate})`)
         .text(d => d.text);
     }
-  }, [theme, words,size]);
+  }, [theme, words, size]);
   
 
   const downloadImage = async () => {
@@ -117,10 +118,15 @@ const WordCloud = ({ words }) => {
 
   return (
   <div className="flex flex-col items-center">
-    <svg ref={ref} width={size[0]} height={size[1]}/>
-    <span className="hover:cursor-pointer" onClick={downloadImage}>
-      <DownloadIcon/>
-    </span>
+    <svg className="" ref={ref} width={size[0]} height={size[1]}/>
+    <div className='flex justify-between pt-5'>
+      <span className="hover:cursor-pointer  mx-4" onClick={downloadImage}>
+        <DownloadIcon/>
+      </span>
+      <span className="hover:cursor-pointer mx-4" onClick={updateSize}>
+        <RefreshIcon/>
+      </span>
+    </div>
   </div> 
   )
 };

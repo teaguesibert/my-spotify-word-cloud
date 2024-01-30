@@ -34,7 +34,7 @@ const processLyricsToWords = (lyrics) => {
   
   tokens.forEach(token => {
     // Ensure the token is not a stop word and has more than one character
-    if (!stopWords.has(token) && token.length > 1) {
+    if (!stopWords.has(token) && token.length > 2) {
       wordCounts[token] = (wordCounts[token] || 0) + 1;
     }
   });
@@ -54,11 +54,6 @@ const IndexPage = () => {
   const [error, setError] = useState(false); // New state for handling errors
   const [topTracks, setTopTracks] = useState([]);
 
-  function encodeSpecialCharacters(str) {
-    return encodeURIComponent(str)
-      .replace(/[!'()*]/g, (c) => '%' + c.charCodeAt(0).toString(16)) // Extra encoding for apostrophes and similar characters
-      .replace(/%20/g, '+'); // Replace spaces with +
-  }
 
   useEffect(() => {
     const fetchLyrics = async () => {
