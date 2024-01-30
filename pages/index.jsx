@@ -54,6 +54,11 @@ const IndexPage = () => {
   const [error, setError] = useState(false); // New state for handling errors
   const [topTracks, setTopTracks] = useState([]);
 
+  function encodeSpecialCharacters(str) {
+    return encodeURIComponent(str)
+      .replace(/[!'()*]/g, (c) => '%' + c.charCodeAt(0).toString(16)) // Extra encoding for apostrophes and similar characters
+      .replace(/%20/g, '+'); // Replace spaces with +
+  }
 
   useEffect(() => {
     const fetchLyrics = async () => {
