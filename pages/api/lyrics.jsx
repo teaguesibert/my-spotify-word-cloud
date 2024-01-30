@@ -47,7 +47,6 @@ export default async function handler(req, res) {
     const pageResponse = await axios.get(lyricsUrl);
     const $ = cheerio.load(pageResponse.data);
 
-    // Replace 'LYRICS_SELECTOR' with the actual selector for lyrics on the Genius page.
     const lyrics = $('[data-lyrics-container="true"]').text();
     if (!lyrics) {
       res.status(404).json({ message: 'Lyrics not found.' });
@@ -60,24 +59,3 @@ export default async function handler(req, res) {
     res.status(error.response?.status || 500).json({ message: error.message });
   }
 }
-
-
-/* 
-Chimera by Polyphia (Ft. Lil West)
-G.O.A.T. by Polyphia
-Babe Ruthless by TERROR REID (Ft. Lu Baby)
-Tokyo Smoke by Cage The Elephant
-Mama's Boy by Dominic Fike
-Need 2 by Pinegrove
-Lagoon by Rich Brian
-GOOD ENEMY by PVRIS
-Frisky by Dominic Fike
-Waltz in E-Major, Op. 15 "Moon Waltz" by Cojum Dip (Ft. Joe Hawley)
-PISTOLWHIP by ​spill tab
-​walking in the snow by Run The Jewels
-POPTHATRUNK by 1nonly & Freddie Dredd
-Wasted Summers by ​juju﹤3
-Chimera by Polyphia (Ft. Lil West)
-​is there a point (girl u know)
-New Music Friday 11/17/23 by Spotify
-*/
