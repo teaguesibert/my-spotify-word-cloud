@@ -2,8 +2,8 @@
 .toggle-switch {
     position: relative;
     display: inline-block;
-    width: 50px;  /* reduced from 60px */
-    height: 28px; /* reduced from 34px */
+    width: 50px;
+    height: 28px;
   }
   
   .toggle-switch input {
@@ -21,7 +21,7 @@
     bottom: 0;
     background-color: #2b4162c1;
     transition: .4s;
-    border-radius: 28px; /* adjusted to match height */
+    border-radius: 28px;
   }
   
   .slider:before {
@@ -45,5 +45,5 @@
   }
   
   input:checked + .slider:before {
-    transform: translateX(24px); /* adjusted to match new width */
+    transform: translateX(24px); 
   }

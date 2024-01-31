@@ -3,10 +3,6 @@ import '../styles/globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Lyric-Cloud',
-  description: 'A WordCloud made based on your Spotify top tracks',
-}
 
 export default function RootLayout({ children }) {
   return (
