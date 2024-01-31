@@ -9,7 +9,7 @@ export default NextAuth({
       authorization: {
         params: {
           scope: 'user-top-read',
-          redirect_uri: 'http://localhost:3000/api/auth/callback/spotify'
+          redirect_uri: process.env.SPOTIFY_REDIRECT_URI
         },
       },
     }),
