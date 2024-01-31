@@ -36,7 +36,7 @@ const processLyricsToWords = (lyrics) => {
   .flatMap(token => token.split(/\s+/)) // Split tokens into words if they were concatenated
   .filter(token => /^[a-z'-]+$/i.test(token) && !token.match(/^['’`-]+$/));
 
-  console.log(tokens);
+  // console.log(tokens);
   const wordCounts = {};
 
   tokens.forEach(token => {

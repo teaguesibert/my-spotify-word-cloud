@@ -15,7 +15,7 @@ const RefreshIcon = () => (
 const WordCloud = ({ words }) => {
   const ref = useRef();
   const [size, setSize] = useState([800, 400]); // Default size
-  console.log(words)
+  //console.log(words)
   const { theme } = useTheme();
   const [colorScheme, setColorScheme] = useState([]);
 
