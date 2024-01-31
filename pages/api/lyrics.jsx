@@ -47,7 +47,16 @@ export default async function handler(req, res) {
     const pageResponse = await axios.get(lyricsUrl);
     const $ = cheerio.load(pageResponse.data);
 
-    const lyrics = $('[data-lyrics-container="true"]').text();
+     // Replace <br> tags with newline characters
+     $('br').replaceWith('\n');
+
+     //Remove <a> tags but keep their text
+     $('a').each(function () {
+       $(this).replaceWith($(this).text());
+     });
+
+     let lyrics = $('[data-lyrics-container="true"]').text().replace(/\s+/g, ' ').trim();
+    
     if (!lyrics) {
       res.status(404).json({ message: 'Lyrics not found.' });
       return;

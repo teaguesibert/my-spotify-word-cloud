@@ -6,7 +6,7 @@ const LoadingIcon = ({loading}) => {
     <div className="flex min-h-screen justify-center items-center">
         <ScaleLoader 
         size={50}
-        color={"#95BDFF"} 
+        color={"#BFB9FF"} 
         loading={loading}
         />
     </div>  

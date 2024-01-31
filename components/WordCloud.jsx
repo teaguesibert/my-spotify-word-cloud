@@ -52,8 +52,8 @@ const WordCloud = ({ words }) => {
       console.error('Invalid or missing words prop');
       return;
     }
-    const lightColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
-    const darkColors = ["#f78fa7", "#7fc6e8", "#8ddfb3", "#f8b195", "#9a9ede", "#fbc6a4"];
+    const lightColors = ["#FC8DCA", "#C37EDB", "#B7A6F6", "#88A3E2", ];
+    const darkColors = ["#FFCFEA", "#FEFFBE", "#CBFFE6", "#AFE9FF", "#BFB9FF",];
     setColorScheme((theme === 'dark' ? darkColors : lightColors));
 
     const color = d3.scaleOrdinal(colorScheme)
@@ -117,7 +117,7 @@ const WordCloud = ({ words }) => {
 
 
   return (
-  <div className="flex flex-col items-center">
+  <div className="flex flex-col items-center p-1">
     <svg className="" ref={ref} width={size[0]} height={size[1]}/>
     <div className='flex justify-between pt-5'>
       <span className="hover:cursor-pointer  mx-4" onClick={downloadImage}>

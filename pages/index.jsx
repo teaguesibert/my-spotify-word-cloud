@@ -10,7 +10,7 @@ import TopTracksList from '../components/TopTracksList';
 import nlp from "compromise";
 import LoadingIcon from '../components/LoadingIcon';
 
-
+//Google font
 const sansita = Sansita_Swashed({
   subsets: ['latin'],
   variable: '--font-sansita',
@@ -24,18 +24,22 @@ const sansita = Sansita_Swashed({
 const processLyricsToWords = (lyrics) => {
   if (!lyrics) return [];
 
-  // Use compromise to tokenize the lyrics
   let doc = nlp(lyrics);
   let tokens = doc.terms().out('array');
-  
-  // Convert tokens to lowercase and filter out non-alphabetic tokens
-  tokens = tokens.map(token => token.toLowerCase().replace(/[,.!?;:()]+$/, ''))
-  .filter(token => token.match(/^[a-z'-]+$/));
-  console.log(tokens)
+
+  tokens = tokens.map(token => {
+    // Normalize token
+    token = token.toLowerCase().replace(/['’`]+$/, '');
+
+    return token
+  })
+  .flatMap(token => token.split(/\s+/)) // Split tokens into words if they were concatenated
+  .filter(token => /^[a-z'-]+$/i.test(token) && !token.match(/^['’`-]+$/));
+
+  console.log(tokens);
   const wordCounts = {};
-  
+
   tokens.forEach(token => {
-    // Ensure the token is not a stop word and has more than one character
     if (!stopWords.has(token) && token.length > 2) {
       wordCounts[token] = (wordCounts[token] || 0) + 1;
     }
@@ -47,6 +51,8 @@ const processLyricsToWords = (lyrics) => {
   }))
   .sort((a, b) => b.value - a.value).slice(0, 150);
 };
+
+
 
 
 const IndexPage = () => {
