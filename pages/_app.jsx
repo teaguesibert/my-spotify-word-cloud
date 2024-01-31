@@ -1,6 +1,8 @@
-import '../src/app/globals.css';
+import '../styles/globals.css';
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from 'next-themes';
+import '../components/Footer/Footer.css'
+import '../components/ThemeButton/ThemeButton.css'
 
 function MyApp({ Component, pageProps: { session, ...pageProps } }) {
   return (

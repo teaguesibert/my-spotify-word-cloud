@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTheme } from 'next-themes';
-import "./ThemeButton.css"
+
 
 const ThemeButton = () => {
     const { theme, setTheme } = useTheme();
