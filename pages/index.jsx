@@ -9,6 +9,9 @@ import { Footer } from '../components/Footer/Footer';
 import TopTracksList from '../components/TopTracksList';
 import nlp from "compromise";
 import LoadingIcon from '../components/LoadingIcon';
+import spotifyLogo from "../public/Spotify_Icon_RGB_White.png"
+import Image from 'next/image'
+
 
 //Google font
 const sansita = Sansita_Swashed({
@@ -118,11 +121,15 @@ const IndexPage = () => {
             <h1 className={`${sansita.className}  text-5xl md:text-6xl lg:text-7xl mb-6 px-4 [text-shadow:_2px_2px_0_rgb(0_0_0_/_40%)] dark:[text-shadow:_6px_6px_0_rgb(0_0_0_/_40%)]`}>
               Lyric-Cloud
             </h1>
-            <button 
-              onClick={() => signIn('spotify', { callbackUrl: '/' })}
-              className='bg-mintgreen-400 hover:bg-emerald-500 text-white font-bold py-2 px-6 rounded-full transition duration-300 ease-in-out shadow-lg transform hover:scale-110 my-4 mx-auto'>
-              Sign in with Spotify
-            </button>
+          <button
+            onClick={() => signIn('spotify', { callbackUrl: '/' })}
+            className='bg-mintgreen-400 hover:bg-emerald-500 text-white font-bold py-2 px-4 md:px-6 rounded-full transition duration-300 ease-in-out shadow-lg transform hover:scale-110 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-mintgreen-300 my-4 mx-auto'
+            aria-label="Sign in with Spotify"
+>
+            <Image src="/Spotify_Icon_RGB_White.png" alt="Spotify" width={24} height={24} className='inline-block mr-2'/>
+            Sign in with Spotify
+          </button>
+
             {error && <p className="text-red-400 mt-4 px-4">Session expired. Please sign in again.</p>}
           </div>
           <Footer/>
