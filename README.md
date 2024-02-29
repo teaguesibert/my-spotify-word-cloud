@@ -25,14 +25,13 @@ A deployed URL can be found here below, but currently requires email whitelistin
 
 ## Screenshots
 
-1. **Sign in:**
-   ![Sign in](https://raw.githubusercontent.com/teaguesibert/spotify-lyric-cloud/master/public/lyric-signin.png)
+![Sign in](https://raw.githubusercontent.com/teaguesibert/spotify-lyric-cloud/master/public/lyric-signin.png)
 
-2. **Sample Word Cloud:**
-   ![Sample Word Cloud](https://github.com/teaguesibert/spotify-lyric-cloud/blob/master/public/lyric-example-cloud.png?raw=true)
 
-3. **Word Cloud controls and Top Tracks**
-   ![Top Tracks](https://raw.githubusercontent.com/teaguesibert/spotify-lyric-cloud/master/public/lyric-top-tracks.png)
+![Sample Word Cloud](https://github.com/teaguesibert/spotify-lyric-cloud/blob/master/public/lyric-example-cloud.png?raw=true)
+
+
+![Top Tracks](https://raw.githubusercontent.com/teaguesibert/spotify-lyric-cloud/master/public/lyric-top-tracks.png)
 
 ## Technologies Used
 
