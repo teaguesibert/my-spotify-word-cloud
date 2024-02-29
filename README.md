@@ -6,7 +6,7 @@ Lyric-Cloud is an application that analyzes the most frequently used words from 
 
 A deployed URL can be found here below, but currently requires email whitelisting until Spotify approves the application:
 
-[https://lyric-cloud.vercel.app/]
+**https://lyric-cloud.vercel.app/**
 
 ## Features
 
@@ -57,4 +57,4 @@ Contributions to Lyric-Cloud are welcome! Please refer to the contribution guide
 
 ## Contact
 
-For support or queries, please reach out to [teaguesibert@gmail.com].
+For support or queries, please reach out to teaguesibert@gmail.com.
