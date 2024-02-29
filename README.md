@@ -1,36 +1,60 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Lyric-Cloud
 
-## Getting Started
+## Introduction
 
-First, run the development server:
+Lyric-Cloud is an application that analyzes the most frequently used words from your top 20 Spotify tracks' lyrics and generates a word cloud. This app provides a unique way to visualize underlying themes of your favorite music.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+A deployed URL can be found here below, but currently requires email whitelisting until Spotify approves the application:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[https://lyric-cloud.vercel.app/]
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Features
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- **Word Cloud Generation:** Automatically creates a word cloud from the lyrics of your top Spotify tracks.
+- **Spotify Integration:** Seamlessly connects with your Spotify account to access your top tracks.
+- **Advanced Text Analysis:** Utilizes NLP (Natural Language Processing) from the compromise library to parse lyrics.
+- **Themes:** Currently offers a light and dark theme.
+- **Responsive Design:** Ensures a smooth user experience across various devices, though it is designed for mobile use.
 
-## Learn More
+## How It Works
 
-To learn more about Next.js, take a look at the following resources:
+1. **Connect Spotify:** Log in with your Spotify account to allow Lyric-Cloud to access your top tracks.
+2. **Lyric Analysis:** The app uses NLP to extract key words from the lyrics of these tracks.
+3. **Word Cloud Creation:** Utilizes d3-cloud to generate a visually appealing word cloud.
+4. **Display and Customize:** View and customize your personal word cloud.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Screenshots
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. **Sign in:**
+   ![Sign in](path-to-your-image)
 
-## Deploy on Vercel
+2. **Sample Word Cloud:**
+   ![Sample Word Cloud](path-to-your-image)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+3. **Word Cloud controls and Top Tracks**
+   ![Top Tracks](path-to-your-image)
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technologies Used
+
+- **Next.js:** A React framework for building user interfaces.
+- **d3-cloud:** A JavaScript library for producing word cloud layouts.
+- **Compromise (NLP):** A natural language processing library for extracting insights from text.
+
+## Installation
+
+1. Clone the repository: git clone https://github.com/your-repo/Lyric-Cloud.git
+2. Install dependencies: npm install
+3. Run the application: npm run dev
+
+## Usage
+
+After installation, set up your .env file with the appropriate variables, and open your web browser and navigate to `http://localhost:3000`. Log in with your Spotify account to start generating your personalized word cloud.
+
+## Contributing
+
+Contributions to Lyric-Cloud are welcome! Please refer to the contribution guidelines for more information.
+
+
+## Contact
+
+For support or queries, please reach out to [teaguesibert@gmail.com].
